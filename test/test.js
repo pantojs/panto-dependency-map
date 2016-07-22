@@ -6,7 +6,7 @@
  * 2016-07-05[22:39:17]:revised
  *
  * @author yanni4night@gmail.com
- * @version 0.2.0
+ * @version 0.2.1
  * @since 0.1.0
  */
 'use strict';
@@ -85,6 +85,10 @@ describe('DependencyMap', () => {
             let dp = dm.resolve('b.jpg');
             assert.deepEqual(dp.sort(), ['a.js'], 'b.jpg');
             dm.clear();
+            dp = dm.resolve('b.jpg');
+            assert.deepEqual(dp.sort(), [], 'b.jpg');
+            dm.add('a.js', 'b.jpg');
+            dm.clear('a.js');
             dp = dm.resolve('b.jpg');
             assert.deepEqual(dp.sort(), [], 'b.jpg');
         });

@@ -47,7 +47,7 @@
  * 2016-07-22[12:33:47]:support match
  *
  * @author yanni4night@gmail.com
- * @version 0.2.0
+ * @version 0.2.1
  * @since 0.1.0
  */
 'use strict';
@@ -94,7 +94,7 @@ class DependencyMap {
         if (!key) {
             this._map.clear();
         } else {
-            this._map.remove(key);
+            this._map.delete(key);
         }
         return this;
     }
