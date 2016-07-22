@@ -9,8 +9,11 @@ const DependencyMap = require('panto-dependency-map');
 const dm = new DependencyMap();
 dm.add('a.css', 'a.png', 'b.jpg', 'c.eot');
 dm.add('b.css', 'a.png', 'e.jpg');
+dm.add('a.js', 'b.js');
+dm.add('main.html', '*.css', '*.js');
 
-dm.resolve('a.png') // ['a.css', 'b.css']
+dm.resolve('b.js') // ['a.js', 'main.html']
+dm.resolve('c.eot', 'e.jpg') // ['a.css', 'main.html', 'b.css']
 ```
 
 [npm-url]: https://npmjs.org/package/panto-dependency-map

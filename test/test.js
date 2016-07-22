@@ -6,7 +6,7 @@
  * 2016-07-05[22:39:17]:revised
  *
  * @author yanni4night@gmail.com
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.1.0
  */
 'use strict';
@@ -22,7 +22,6 @@ describe('DependencyMap', () => {
             dm.add('a.css', 'a.jpg', 'a.eot');
             dm.add('d.js', 'a.js', 'e.js', 'a.css');
             dm.add('a.html', 'a.js', 'b.js', 'a.css', 'b.css', 'a.png');
-
             let dp = dm.resolve('b.js');
             assert.deepEqual(dp.sort(), ['a.html', 'a.js', 'd.js'], 'b.js');
 
@@ -68,6 +67,15 @@ describe('DependencyMap', () => {
 
             dp = dm.resolve('b.js');
             assert.deepEqual(dp.sort(), ['a.js', 'c.js'], 'b.js');
+        });
+        it('should support match', () => {
+            const dm = new DependencyMap();
+            dm.add('a.js', 'b.jpg');
+            dm.add('a.html', '*.js');
+            dm.add('b.html', '*.js');
+
+            let dp = dm.resolve('b.jpg');
+            assert.deepEqual(dp.sort(), ['a.html', 'a.js', 'b.html'], 'b.jpg');
         });
     });
 });

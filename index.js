@@ -44,20 +44,22 @@
  * 
  * changelog
  * 2016-07-05[22:32:35]revised
+ * 2016-07-22[12:33:47]:support match
  *
  * @author yanni4night@gmail.com
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.1.0
  */
 'use strict';
 
 const uniq = require('lodash/uniq');
 const defineFrozenProperty = require('define-frozen-property');
+const minimatch = require('minimatch');
 
 /** Class representing a dependency map */
 class DependencyMap {
     constructor() {
-        defineFrozenProperty(this, '_map', {});
+        defineFrozenProperty(this, '_map', new Map());
     }
     /**
      * Add a dependency pair. The KEY depends
@@ -67,15 +69,15 @@ class DependencyMap {
      * @param {...string} values
      */
     add(key, ...values) {
-        let deps = this._map[key];
+        let deps = this._map.get(key);
 
         if (!deps) {
-            this._map[key] = deps = {};
+            this._map.set(key, (deps = [])) ;
         }
 
         values.forEach(dep => {
             if (dep !== key) {
-                deps[dep] = 1; // any value truely
+                deps.push(dep);
             }
         });
 
@@ -90,11 +92,9 @@ class DependencyMap {
      */
     clear(key) {
         if (!key) {
-            Object.keys(this._map).forEach(key => {
-                this.clear(key);
-            });
+            this._map.clear();
         } else {
-            delete this._map[key];
+            this._map.remove(key);
         }
         return this;
     }
@@ -125,10 +125,19 @@ class DependencyMap {
      * @return {undefined}
      */
     resolveKey(key, result, ignore) {
-        for (let dfn in this._map) {
-            if (result.indexOf(dfn) === -1 && dfn !== key && dfn !== ignore && this._map[dfn][key]) {
-                result.push(dfn);
-                this.resolveKey(dfn, result, ignore);
+        for (let [dfn, deps] of this._map) {
+            if (result.indexOf(dfn) === -1 && dfn !== key && dfn !== ignore) {
+                let found = false;
+                for (let i = 0; i < deps.length; ++i) {
+                    if (deps[i] === key || minimatch(key, deps[i])) {
+                        result.push(dfn);
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    this.resolveKey(dfn, result, ignore);
+                }
             }
         }
     }
