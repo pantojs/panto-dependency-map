@@ -78,4 +78,15 @@ describe('DependencyMap', () => {
             assert.deepEqual(dp.sort(), ['a.html', 'a.js', 'b.html'], 'b.jpg');
         });
     });
+    describe('#clear', () => {
+        it('should clear', () => {
+            const dm = new DependencyMap();
+            dm.add('a.js', 'b.jpg');
+            let dp = dm.resolve('b.jpg');
+            assert.deepEqual(dp.sort(), ['a.js'], 'b.jpg');
+            dm.clear();
+            dp = dm.resolve('b.jpg');
+            assert.deepEqual(dp.sort(), [], 'b.jpg');
+        });
+    });
 });
