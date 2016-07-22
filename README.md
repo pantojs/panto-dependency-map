@@ -1,5 +1,5 @@
 # panto-dependency-map
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url] [![Coverage Status][coveralls-image]][coveralls-url]
 
 Dependency map for panto.
 
@@ -25,3 +25,5 @@ dm.resolve('c.eot', 'e.jpg') // ['a.css', 'main.html', 'b.css']
 [david-dm-image]:https://david-dm.org/pantojs/panto-dependency-map.svg
 [david-dm-dev-url]:https://david-dm.org/pantojs/panto-dependency-map#info=devDependencies
 [david-dm-dev-image]:https://david-dm.org/pantojs/panto-dependency-map/dev-status.svg
+[coveralls-image]:https://coveralls.io/repos/github/pantojs/panto-dependency-map/badge.svg?branch=master
+[coveralls-url]:https://coveralls.io/github/pantojs/panto-dependency-map?branch=master
